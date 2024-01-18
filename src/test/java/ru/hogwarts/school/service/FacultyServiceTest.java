@@ -16,8 +16,8 @@ class FacultyServiceTest {
 
     @BeforeEach
     void setUp() {
-        faculty = new Faculty(1L, "Faculty 1", "Orange");
-        facultyUpdate = new Faculty(1L, "Faculty 1 update", "Black");
+        faculty = new Faculty(0L, "Faculty 1", "Orange");
+        facultyUpdate = new Faculty(0L, "Faculty 1 update", "Black");
         facultyService.addFaculty(faculty);
     }
 
@@ -28,7 +28,7 @@ class FacultyServiceTest {
 
     @Test
     void getFaculty() {
-        assertEquals(faculty, facultyService.getFaculty(1L));
+        assertEquals(faculty, facultyService.getFaculty(0L));
     }
 
     @Test
@@ -43,7 +43,7 @@ class FacultyServiceTest {
 
     @Test
     void deleteFaculty() {
-        assertEquals(faculty, facultyService.deleteFaculty(1L));
+        assertEquals(faculty, facultyService.deleteFaculty(0L));
     }
 
     @Test

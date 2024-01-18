@@ -16,8 +16,8 @@ class StudentServiceTest {
 
     @BeforeEach
     void setUp() {
-        student = new Student(1L, "Harry Potter", 11);
-        studentUpdate = new Student(1L, "Hermione Granger", 12);
+        student = new Student(0L, "Harry Potter", 11);
+        studentUpdate = new Student(0L, "Hermione Granger", 12);
         studentService.addStudent(student);
     }
 
@@ -28,7 +28,7 @@ class StudentServiceTest {
 
     @Test
     void getStudent() {
-        assertEquals(student, studentService.getStudent(1L));
+        assertEquals(student, studentService.getStudent(0L));
     }
 
     @Test
@@ -43,7 +43,7 @@ class StudentServiceTest {
 
     @Test
     void deleteStudent() {
-        assertEquals(student, studentService.deleteStudent(1L));
+        assertEquals(student, studentService.deleteStudent(0L));
     }
 
     @Test

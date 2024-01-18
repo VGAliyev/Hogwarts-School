@@ -15,7 +15,7 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public Student addStudent(Student student) {
-        student.setId(++id);
+        student.setId(id++);
         students.put(student.getId(), student);
         return  student;
     }

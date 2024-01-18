@@ -15,7 +15,7 @@ public class FacultyServiceImpl implements FacultyService {
 
     @Override
     public Faculty addFaculty(Faculty faculty) {
-        faculty.setId(++id);
+        faculty.setId(id++);
         faculties.put(faculty.getId(), faculty);
         return faculty;
     }
