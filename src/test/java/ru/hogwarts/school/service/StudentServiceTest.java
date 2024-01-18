@@ -10,7 +10,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class StudentServiceTest {
 
-    private final StudentService studentService = new StudentService();
+    private final StudentService studentService = new StudentServiceImpl();
     private Student student;
     private Student studentUpdate;
 

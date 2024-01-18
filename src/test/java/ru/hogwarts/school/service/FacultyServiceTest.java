@@ -10,7 +10,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class FacultyServiceTest {
 
-    private final FacultyService facultyService = new FacultyService();
+    private final FacultyService facultyService = new FacultyServiceImpl();
     private Faculty faculty;
     private Faculty facultyUpdate;
 
