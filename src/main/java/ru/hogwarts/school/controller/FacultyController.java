@@ -56,6 +56,7 @@ public class FacultyController {
 
     @DeleteMapping("{id}")
     public ResponseEntity<Faculty> deleteFaculty(@PathVariable long id) {
-        return ResponseEntity.ok(facultyService.deleteFaculty(id));
+        facultyService.deleteFaculty(id);
+        return ResponseEntity.ok().build();
     }
 }
