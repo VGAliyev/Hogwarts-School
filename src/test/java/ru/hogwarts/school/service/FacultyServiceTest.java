@@ -1,14 +1,57 @@
 package ru.hogwarts.school.service;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import ru.hogwarts.school.model.Faculty;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+import ru.hogwarts.school.repository.FacultyRepository;
 
 import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
+import static ru.hogwarts.school.constants.TestConstants.*;
 
+@ExtendWith(MockitoExtension.class)
 class FacultyServiceTest {
+    @Mock
+    private FacultyRepository facultyRepository;
+    @InjectMocks
+    private FacultyServiceImpl facultyService;
 
+    @Test
+    public void addFaculty() {
+        when(facultyRepository.save(GRYFFINDOR)).thenReturn(GRYFFINDOR);
+        assertEquals(GRYFFINDOR, facultyService.addFaculty(GRYFFINDOR));
+    }
 
+    @Test
+    public void getFaculty() {
+        when(facultyRepository.findById(1L)).thenReturn(Optional.of(GRYFFINDOR));
+        assertEquals(facultyService.getFaculty(1L), GRYFFINDOR);
+    }
+
+    @Test
+    public void getAllFaculties() {
+        when(facultyRepository.findAll()).thenReturn(List.of(GRYFFINDOR, SLYTHERIN));
+        assertEquals(facultyService.getAllFaculties(), List.of(GRYFFINDOR, SLYTHERIN));
+    }
+
+    @Test
+    public void editFaculty() {
+        when(facultyRepository.save(GRYFFINDOR)).thenReturn(GRYFFINDOR);
+        assertEquals(GRYFFINDOR, facultyService.addFaculty(GRYFFINDOR));
+    }
+
+    @Test
+    public void deleteFaculty() {
+        // TODO
+    }
+
+    @Test
+    public void getFacultiesByColor() {
+        when(facultyRepository.findByColor("Green")).thenReturn(List.of(SLYTHERIN));
+        assertEquals(facultyService.getFacultiesByColor("Green"), List.of(SLYTHERIN));
+    }
 }
