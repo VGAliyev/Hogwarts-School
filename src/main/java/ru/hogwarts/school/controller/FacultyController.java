@@ -4,6 +4,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.hogwarts.school.model.Faculty;
+import ru.hogwarts.school.model.Student;
 import ru.hogwarts.school.service.FacultyService;
 
 import java.util.Collection;
@@ -43,6 +44,17 @@ public class FacultyController {
             return ResponseEntity.ok(facultyService.getFacultiesByColor(color));
         }
         return ResponseEntity.ok(Collections.emptyList());
+    }
+
+    @GetMapping("findByNameOrColor")
+    public Collection<Faculty> getFacultiesByNameOrColor(@RequestParam(required = false) String name,
+                                                         @RequestParam(required = false) String color) {
+        return facultyService.getFacultiesByNameOrColor(name, color);
+    }
+
+    @GetMapping("{id}/students")
+    public Collection<Student> getStudents(@PathVariable Long id) {
+        return facultyService.getStudents(id);
     }
 
     @PutMapping
