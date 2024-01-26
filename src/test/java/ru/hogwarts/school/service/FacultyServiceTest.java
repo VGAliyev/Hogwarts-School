@@ -55,4 +55,19 @@ class FacultyServiceTest {
         when(facultyRepository.findByColor("Green")).thenReturn(List.of(SLYTHERIN));
         assertEquals(facultyService.getFacultiesByColor("Green"), List.of(SLYTHERIN));
     }
+
+    @Test
+    public void getFacultyByNameOrColor() {
+        when(facultyRepository.findByNameOrColorIgnoreCase(anyString(), anyString())).thenReturn(List.of(GRYFFINDOR));
+        assertEquals(facultyService.getFacultiesByNameOrColor(anyString(), anyString()), List.of(GRYFFINDOR));
+    }
+
+    //@Test
+    //public void getStudents() {
+        //Collection<Student> students = spy(new ArrayList<>());
+        //students.add(HARRY);
+        //doReturn(Optional.of(students)).when(facultyRepository).findById(anyLong());
+        //assertEquals(HARRY, facultyService.getStudents(1L));
+        // ToDo
+    //}
 }

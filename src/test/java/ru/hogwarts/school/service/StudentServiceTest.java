@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 import static ru.hogwarts.school.constants.TestConstants.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -56,4 +56,17 @@ class StudentServiceTest {
         when(studentRepository.findByAge(11)).thenReturn(List.of(HARRY));
         assertEquals(studentService.getStudentsByAge(11), List.of(HARRY));
     }
+
+    @Test
+    public void getStudentsByAgeBetween() {
+        when(studentRepository.findByAgeBetween(anyInt(), anyInt())).thenReturn(List.of(HARRY));
+        assertEquals(studentService.getStudentsByAgeBetween(anyInt(), anyInt()), List.of(HARRY));
+    }
+
+    //@Test
+    //public void getFaculty() {
+        //doReturn(Optional.of(faculty)).when(studentRepository).findById(1L).map(Student::getFaculty);
+        //assertEquals(studentService.getFaculty(1L), faculty);
+        // ToDo
+    //}
 }
