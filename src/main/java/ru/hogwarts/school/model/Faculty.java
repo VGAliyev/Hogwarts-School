@@ -1,10 +1,7 @@
 package ru.hogwarts.school.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 
 import java.util.Collection;
 import java.util.Objects;
@@ -12,7 +9,7 @@ import java.util.Objects;
 @Entity
 public class Faculty {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
     private String color;

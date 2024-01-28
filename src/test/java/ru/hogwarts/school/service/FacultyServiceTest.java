@@ -5,6 +5,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import ru.hogwarts.school.model.Student;
 import ru.hogwarts.school.repository.FacultyRepository;
 import ru.hogwarts.school.service.Impl.FacultyServiceImpl;
 
@@ -62,12 +63,8 @@ class FacultyServiceTest {
         assertEquals(facultyService.getFacultiesByNameOrColor(anyString(), anyString()), List.of(GRYFFINDOR));
     }
 
-    //@Test
-    //public void getStudents() {
-        //Collection<Student> students = spy(new ArrayList<>());
-        //students.add(HARRY);
-        //doReturn(Optional.of(students)).when(facultyRepository).findById(anyLong());
-        //assertEquals(HARRY, facultyService.getStudents(1L));
-        // ToDo
-    //}
+    @Test
+    public void getStudents() {
+        // Todo
+    }
 }

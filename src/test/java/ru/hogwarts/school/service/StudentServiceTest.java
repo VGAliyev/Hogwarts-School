@@ -5,6 +5,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import ru.hogwarts.school.model.Faculty;
+import ru.hogwarts.school.model.Student;
 import ru.hogwarts.school.repository.StudentRepository;
 import ru.hogwarts.school.service.Impl.StudentServiceImpl;
 
@@ -63,10 +65,8 @@ class StudentServiceTest {
         assertEquals(studentService.getStudentsByAgeBetween(anyInt(), anyInt()), List.of(HARRY));
     }
 
-    //@Test
-    //public void getFaculty() {
-        //doReturn(Optional.of(faculty)).when(studentRepository).findById(1L).map(Student::getFaculty);
-        //assertEquals(studentService.getFaculty(1L), faculty);
-        // ToDo
-    //}
+    @Test
+    public void getFaculty() {
+        // Todo
+    }
 }

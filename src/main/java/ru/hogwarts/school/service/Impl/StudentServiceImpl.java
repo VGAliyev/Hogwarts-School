@@ -55,6 +55,6 @@ public class StudentServiceImpl implements StudentService {
     public Faculty getFaculty(Long id) {
         return studentRepository.findById(id)
                 .map(Student::getFaculty)
-                .orElse(null);
+                .orElseThrow();
     }
 }
