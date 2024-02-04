@@ -39,17 +39,21 @@ public class AvatarServiceImpl implements AvatarService {
         Path filePath = Path.of(avatarsDir,
                 student + "." + getExtension(avatarFile.getOriginalFilename()));
 
-        Files.createDirectories(filePath.getParent());
-        Files.deleteIfExists(filePath);
+        saveToFile(avatarFile, filePath);
 
-        try (
-                InputStream is = avatarFile.getInputStream();
-                OutputStream os = Files.newOutputStream(filePath, CREATE_NEW);
-                BufferedInputStream bis = new BufferedInputStream(is, 1024);
-                BufferedOutputStream bos = new BufferedOutputStream(os, 1024)
-                ) {
-            bis.transferTo(bos);
-        }
+        saveToDB(studentId, avatarFile, student, filePath);
+    }
+
+    @Override
+    public Avatar findAvatar(Long studentId) {
+        return avatarRepository.findByStudentId(studentId).orElseGet(Avatar::new);
+    }
+
+    private String getExtension(String originalFilename) {
+        return originalFilename.substring(originalFilename.lastIndexOf(".") + 1);
+    }
+
+    private void saveToDB(Long studentId, MultipartFile avatarFile, Student student, Path filePath) throws IOException {
         Avatar avatar = findAvatar(studentId);
         avatar.setStudent(student);
         avatar.setFilePath(filePath.toString());
@@ -60,13 +64,18 @@ public class AvatarServiceImpl implements AvatarService {
         avatarRepository.save(avatar);
     }
 
-    @Override
-    public Avatar findAvatar(Long studentId) {
-        return avatarRepository.findByStudentId(studentId).orElseGet(Avatar::new);
-    }
+    private void saveToFile(MultipartFile avatarFile, Path filePath) throws IOException {
+        Files.createDirectories(filePath.getParent());
+        Files.deleteIfExists(filePath);
 
-    private String getExtension(String originalFilename) {
-        return originalFilename.substring(originalFilename.lastIndexOf(".") + 1);
+        try (
+                InputStream is = avatarFile.getInputStream();
+                OutputStream os = Files.newOutputStream(filePath, CREATE_NEW);
+                BufferedInputStream bis = new BufferedInputStream(is, 1024);
+                BufferedOutputStream bos = new BufferedOutputStream(os, 1024)
+        ) {
+            bis.transferTo(bos);
+        }
     }
 
     private byte[] generateDataForDB(Path filePath) throws IOException {
