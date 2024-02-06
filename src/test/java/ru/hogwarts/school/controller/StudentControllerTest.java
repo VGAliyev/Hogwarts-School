@@ -1,8 +1,6 @@
 package ru.hogwarts.school.controller;
 
-import io.swagger.v3.oas.models.PathItem;
 import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -13,7 +11,6 @@ import org.springframework.http.*;
 import org.springframework.util.LinkedMultiValueMap;
 import ru.hogwarts.school.model.Faculty;
 import ru.hogwarts.school.model.Student;
-import ru.hogwarts.school.repository.StudentRepository;
 
 import java.util.*;
 
@@ -27,9 +24,6 @@ public class StudentControllerTest {
 
     @Autowired
     private StudentController studentController;
-
-    @Autowired
-    private StudentRepository studentRepository;
 
     @Autowired
     private TestRestTemplate restTemplate;
@@ -56,14 +50,14 @@ public class StudentControllerTest {
     @Test
     public void getStudentsByAgeTest() throws Exception {
         Assertions
-                .assertThat(this.restTemplate.getForObject("http://localhost:" + port + "/students/age/15", Collection.class).size())
+                .assertThat(this.restTemplate.getForObject("http://localhost:" + port + "/students/age/16", Collection.class).size())
                 .isEqualTo(1);
     }
 
     @Test
     public void getStudentsByAgeBetweenTest() throws Exception {
         Assertions
-                .assertThat(this.restTemplate.getForObject("http://localhost:" + port + "/students/age-between/10/16", Collection.class).size())
+                .assertThat(this.restTemplate.getForObject("http://localhost:" + port + "/students/age-between/10/17", Collection.class).size())
                 .isEqualTo(2);
     }
 
