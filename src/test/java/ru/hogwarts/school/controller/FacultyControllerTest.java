@@ -43,7 +43,7 @@ public class FacultyControllerTest {
     public void getAllFacultiesTest() throws Exception {
         Assertions
                 .assertThat(this.restTemplate.getForObject("http://localhost:" + port + "/faculties/", Collection.class).size())
-                .isEqualTo(2);
+                .isEqualTo(3);
     }
 
     @Test
@@ -92,7 +92,7 @@ public class FacultyControllerTest {
     @Test
     public void deleteFacultyTest() throws Exception {
         ResponseEntity<Faculty> response = this.restTemplate.exchange(
-                "http://localhost:" + port + "/faculties/2",
+                "http://localhost:" + port + "/faculties/3",
                 HttpMethod.DELETE,
                 new HttpEntity<>(faculty),
                 Faculty.class
