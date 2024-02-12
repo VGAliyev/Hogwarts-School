@@ -5,6 +5,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import ru.hogwarts.school.model.Student;
 import ru.hogwarts.school.repository.FacultyRepository;
 import ru.hogwarts.school.service.Impl.FacultyServiceImpl;
 
@@ -54,5 +55,16 @@ class FacultyServiceTest {
     public void getFacultiesByColor() {
         when(facultyRepository.findByColor("Green")).thenReturn(List.of(SLYTHERIN));
         assertEquals(facultyService.getFacultiesByColor("Green"), List.of(SLYTHERIN));
+    }
+
+    @Test
+    public void getFacultyByNameOrColor() {
+        when(facultyRepository.findByNameOrColorIgnoreCase(anyString(), anyString())).thenReturn(List.of(GRYFFINDOR));
+        assertEquals(facultyService.getFacultiesByNameOrColor(anyString(), anyString()), List.of(GRYFFINDOR));
+    }
+
+    @Test
+    public void getStudents() {
+        // Todo
     }
 }
