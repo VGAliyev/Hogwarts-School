@@ -14,6 +14,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.List;
 
 @RestController
 @RequestMapping("avatars/")
@@ -22,6 +23,11 @@ public class AvatarController {
 
     public AvatarController(AvatarService avatarService) {
         this.avatarService = avatarService;
+    }
+
+    @GetMapping
+    public List<Avatar> findAll(@RequestParam("page") Integer pageNumber, @RequestParam("size") Integer pageSize) {
+        return avatarService.findAll(pageNumber, pageSize);
     }
 
     @GetMapping(value = "{id}/avatar-from-db")
