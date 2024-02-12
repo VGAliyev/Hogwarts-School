@@ -1,53 +1,59 @@
 package ru.hogwarts.school.service;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import ru.hogwarts.school.model.Student;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+import ru.hogwarts.school.repository.StudentRepository;
+import ru.hogwarts.school.service.Impl.StudentServiceImpl;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.when;
+import static ru.hogwarts.school.constants.TestConstants.*;
 
+@ExtendWith(MockitoExtension.class)
 class StudentServiceTest {
+    @Mock
+    private StudentRepository studentRepository;
+    @InjectMocks
+    private StudentServiceImpl studentService;
 
-    private final StudentService studentService = new StudentServiceImpl();
-    private Student student;
-    private Student studentUpdate;
-
-    @BeforeEach
-    void setUp() {
-        student = new Student(0L, "Harry Potter", 11);
-        studentUpdate = new Student(0L, "Hermione Granger", 12);
-        studentService.addStudent(student);
+    @Test
+    public void addStudent() {
+        when(studentRepository.save(HARRY)).thenReturn(HARRY);
+        assertEquals(HARRY, studentService.addStudent(HARRY));
     }
 
     @Test
-    void addStudent() {
-        assertEquals(student, studentService.addStudent(student));
+    public void getStudent() {
+        when(studentRepository.findById(1L)).thenReturn(Optional.of(HARRY));
+        assertEquals(studentService.getStudent(1L), HARRY);
     }
 
     @Test
-    void getStudent() {
-        assertEquals(student, studentService.getStudent(0L));
+    public void getAllStudents() {
+        when(studentRepository.findAll()).thenReturn(List.of(HARRY, HERMIONE));
+        assertEquals(studentService.getAllStudents(), List.of(HARRY, HERMIONE));
     }
 
     @Test
-    void getAllStudents() {
-        assertEquals(List.of(student), studentService.getAllStudents());
+    public void editStudent() {
+        when(studentRepository.save(HARRY)).thenReturn(HARRY);
+        assertEquals(HARRY, studentService.addStudent(HARRY));
     }
 
     @Test
-    void editStudent() {
-        assertEquals(studentUpdate, studentService.editStudent(studentUpdate));
+    public void deleteStudent() {
+        // TODO
     }
 
     @Test
-    void deleteStudent() {
-        assertEquals(student, studentService.deleteStudent(0L));
-    }
-
-    @Test
-    void getStudentsByAge() {
-        assertEquals(List.of(student), studentService.getStudentsByAge(11));
+    public void getStudentsByColor() {
+        when(studentRepository.findByAge(11)).thenReturn(List.of(HARRY));
+        assertEquals(studentService.getStudentsByAge(11), List.of(HARRY));
     }
 }

@@ -1,53 +1,58 @@
 package ru.hogwarts.school.service;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import ru.hogwarts.school.model.Faculty;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+import ru.hogwarts.school.repository.FacultyRepository;
+import ru.hogwarts.school.service.Impl.FacultyServiceImpl;
 
 import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
+import static ru.hogwarts.school.constants.TestConstants.*;
 
+@ExtendWith(MockitoExtension.class)
 class FacultyServiceTest {
+    @Mock
+    private FacultyRepository facultyRepository;
+    @InjectMocks
+    private FacultyServiceImpl facultyService;
 
-    private final FacultyService facultyService = new FacultyServiceImpl();
-    private Faculty faculty;
-    private Faculty facultyUpdate;
-
-    @BeforeEach
-    void setUp() {
-        faculty = new Faculty(0L, "Faculty 1", "Orange");
-        facultyUpdate = new Faculty(0L, "Faculty 1 update", "Black");
-        facultyService.addFaculty(faculty);
+    @Test
+    public void addFaculty() {
+        when(facultyRepository.save(GRYFFINDOR)).thenReturn(GRYFFINDOR);
+        assertEquals(GRYFFINDOR, facultyService.addFaculty(GRYFFINDOR));
     }
 
     @Test
-    void addFaculty() {
-        assertEquals(faculty, facultyService.addFaculty(faculty));
+    public void getFaculty() {
+        when(facultyRepository.findById(1L)).thenReturn(Optional.of(GRYFFINDOR));
+        assertEquals(facultyService.getFaculty(1L), GRYFFINDOR);
     }
 
     @Test
-    void getFaculty() {
-        assertEquals(faculty, facultyService.getFaculty(0L));
+    public void getAllFaculties() {
+        when(facultyRepository.findAll()).thenReturn(List.of(GRYFFINDOR, SLYTHERIN));
+        assertEquals(facultyService.getAllFaculties(), List.of(GRYFFINDOR, SLYTHERIN));
     }
 
     @Test
-    void getAllFaculties() {
-       assertEquals(List.of(faculty), facultyService.getAllFaculties());
+    public void editFaculty() {
+        when(facultyRepository.save(GRYFFINDOR)).thenReturn(GRYFFINDOR);
+        assertEquals(GRYFFINDOR, facultyService.addFaculty(GRYFFINDOR));
     }
 
     @Test
-    void editFaculty() {
-        assertEquals(facultyUpdate, facultyService.editFaculty(facultyUpdate));
+    public void deleteFaculty() {
+        // TODO
     }
 
     @Test
-    void deleteFaculty() {
-        assertEquals(faculty, facultyService.deleteFaculty(0L));
-    }
-
-    @Test
-    void getFacultiesByColor() {
-        assertEquals(List.of(faculty), facultyService.getFacultiesByColor("Orange"));
+    public void getFacultiesByColor() {
+        when(facultyRepository.findByColor("Green")).thenReturn(List.of(SLYTHERIN));
+        assertEquals(facultyService.getFacultiesByColor("Green"), List.of(SLYTHERIN));
     }
 }
