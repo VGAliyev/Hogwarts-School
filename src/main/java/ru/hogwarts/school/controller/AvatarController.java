@@ -6,6 +6,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import ru.hogwarts.school.dto.AvatarDTO;
+import ru.hogwarts.school.mapper.AvatarMapper;
 import ru.hogwarts.school.model.Avatar;
 import ru.hogwarts.school.service.AvatarService;
 
@@ -15,19 +17,26 @@ import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("avatars/")
 public class AvatarController {
     private final AvatarService avatarService;
 
-    public AvatarController(AvatarService avatarService) {
+    private final AvatarMapper avatarMapper;
+
+    public AvatarController(AvatarService avatarService, AvatarMapper avatarMapper) {
         this.avatarService = avatarService;
+        this.avatarMapper = avatarMapper;
     }
 
     @GetMapping
-    public List<Avatar> findAll(@RequestParam("page") Integer pageNumber, @RequestParam("size") Integer pageSize) {
-        return avatarService.findAll(pageNumber, pageSize);
+    public List<AvatarDTO> findAll(@RequestParam("page") Integer pageNumber, @RequestParam("size") Integer pageSize) {
+        return avatarService.findAll(pageNumber, pageSize)
+                .stream()
+                .map(avatarMapper::avatarToDTO)
+                .collect(Collectors.toList());
     }
 
     @GetMapping(value = "{id}/avatar-from-db")

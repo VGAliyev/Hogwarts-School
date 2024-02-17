@@ -14,7 +14,6 @@ public class Avatar {
     private String filePath;
     private long fileSize;
     private String mediaType;
-    @JsonIgnore
     @Lob
     private byte[] data;
     @OneToOne
