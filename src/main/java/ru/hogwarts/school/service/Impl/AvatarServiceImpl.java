@@ -1,6 +1,8 @@
 package ru.hogwarts.school.service.Impl;
 
 import jakarta.transaction.Transactional;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -30,6 +32,8 @@ public class AvatarServiceImpl implements AvatarService {
     private final AvatarRepository avatarRepository;
     private final StudentRepository studentRepository;
 
+    private final Logger logger = LoggerFactory.getLogger(AvatarServiceImpl.class);
+
     public AvatarServiceImpl(StudentRepository studentRepository, AvatarRepository avatarRepository) {
         this.avatarRepository = avatarRepository;
         this.studentRepository = studentRepository;
@@ -37,6 +41,7 @@ public class AvatarServiceImpl implements AvatarService {
 
     @Override
     public void uploadAvatar(Long studentId, MultipartFile avatarFile) throws IOException {
+        logger.info("Was invoked method upload avatar");
         Student student = studentRepository.findById(studentId).orElseThrow();
         Path filePath = Path.of(avatarsDir,
                 student + "." + getExtension(avatarFile.getOriginalFilename()));
@@ -44,24 +49,29 @@ public class AvatarServiceImpl implements AvatarService {
         saveToFile(avatarFile, filePath);
 
         saveToDB(studentId, avatarFile, student, filePath);
+        logger.debug("Avatar uploaded");
     }
 
     @Override
     public Avatar findAvatar(Long studentId) {
+        logger.info("Was invoked method find avatar by id {}", studentId);
         return avatarRepository.findByStudentId(studentId).orElseGet(Avatar::new);
     }
 
     @Override
     public List<Avatar> findAll(Integer pageNumber, Integer pageSize) {
+        logger.debug("Find all avatar with pagination: pageNumber = {}, pageSize = {}", pageNumber, pageSize);
         PageRequest pageRequest = PageRequest.of(pageNumber - 1, pageSize);
         return avatarRepository.findAll(pageRequest).getContent();
     }
 
     private String getExtension(String originalFilename) {
+        logger.debug("Get extension of file {}", originalFilename);
         return originalFilename.substring(originalFilename.lastIndexOf(".") + 1);
     }
 
     private void saveToDB(Long studentId, MultipartFile avatarFile, Student student, Path filePath) throws IOException {
+        logger.debug("Save avatar to database");
         Avatar avatar = findAvatar(studentId);
         avatar.setStudent(student);
         avatar.setFilePath(filePath.toString());
@@ -73,6 +83,7 @@ public class AvatarServiceImpl implements AvatarService {
     }
 
     private void saveToFile(MultipartFile avatarFile, Path filePath) throws IOException {
+        logger.debug("Save avatar to file {}", filePath.getFileName());
         Files.createDirectories(filePath.getParent());
         Files.deleteIfExists(filePath);
 
@@ -87,6 +98,7 @@ public class AvatarServiceImpl implements AvatarService {
     }
 
     private byte[] generateDataForDB(Path filePath) throws IOException {
+        logger.debug("Generate data for database from file {}", filePath.getFileName());
         try (
                 InputStream is = Files.newInputStream(filePath);
                 BufferedInputStream bis = new BufferedInputStream(is, 1024);
