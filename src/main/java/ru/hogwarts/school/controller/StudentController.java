@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("students/")
@@ -105,5 +106,14 @@ public class StudentController {
     public ResponseEntity<Student> deleteStudent(@PathVariable long id) {
         studentService.deleteStudent(id);
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("get-sorted-list-names-A")
+    public List<String> getSortedListOfStudentNamesStartingWithLetterA() {
+        return studentService.getAllStudents().stream()
+                .map(Student::getName)
+                .filter(name -> name.charAt(0) == 'A')
+                .sorted()
+                .collect(Collectors.toList());
     }
 }
