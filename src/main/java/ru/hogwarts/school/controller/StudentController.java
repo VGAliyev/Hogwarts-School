@@ -116,4 +116,12 @@ public class StudentController {
                 .sorted()
                 .collect(Collectors.toList());
     }
+
+    @GetMapping("get-average-age-stream")
+    public Float getAverageAgeStream() {
+        return (float) studentService.getAllStudents().stream()
+                .mapToDouble(Student::getAge)
+                .average()
+                .orElse(Double.NaN);
+    }
 }
