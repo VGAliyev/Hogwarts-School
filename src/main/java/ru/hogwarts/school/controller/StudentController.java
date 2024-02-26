@@ -14,7 +14,6 @@ import java.io.IOException;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("students/")
@@ -110,18 +109,11 @@ public class StudentController {
 
     @GetMapping("get-sorted-list-names-A")
     public List<String> getSortedListOfStudentNamesStartingWithLetterA() {
-        return studentService.getAllStudents().stream()
-                .map(Student::getName)
-                .filter(name -> name.charAt(0) == 'A')
-                .sorted()
-                .collect(Collectors.toList());
+        return studentService.getSortedListNamesA();
     }
 
     @GetMapping("get-average-age-stream")
     public Float getAverageAgeStream() {
-        return (float) studentService.getAllStudents().stream()
-                .mapToDouble(Student::getAge)
-                .average()
-                .orElse(Double.NaN);
+        return studentService.getAverageAgeStream();
     }
 }

@@ -71,4 +71,12 @@ public class FacultyServiceImpl implements FacultyService {
                     return new RuntimeException();
                 });
     }
+
+    @Override
+    public String getlongFacultyName() {
+        return facultyRepository.findAll().stream()
+                .map(Faculty::getName)
+                .max(Comparator.comparingInt(String::length))
+                .orElseThrow();
+    }
 }
