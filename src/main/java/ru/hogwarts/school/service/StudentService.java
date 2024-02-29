@@ -28,4 +28,8 @@ public interface StudentService {
     Float getAverageAge();
 
     List<Student> getLast5Students();
+
+    List<String> getSortedListNamesA();
+
+    Float getAverageAgeStream();
 }

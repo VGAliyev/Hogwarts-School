@@ -106,4 +106,14 @@ public class StudentController {
         studentService.deleteStudent(id);
         return ResponseEntity.ok().build();
     }
+
+    @GetMapping("get-sorted-list-names-A")
+    public List<String> getSortedListOfStudentNamesStartingWithLetterA() {
+        return studentService.getSortedListNamesA();
+    }
+
+    @GetMapping("get-average-age-stream")
+    public Float getAverageAgeStream() {
+        return studentService.getAverageAgeStream();
+    }
 }
