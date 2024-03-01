@@ -120,9 +120,25 @@ public class StudentServiceImpl implements StudentService {
         }).start();
     }
 
+    @Override
+    public void printSynchronized() {
+        List<String> studentNames = getStudentNamesSynchronized();
+        System.out.println("First: " + studentNames.get(0) + ". Second: " + studentNames.get(1));
+        new Thread(() -> {
+            System.out.println("Third: " + studentNames.get(2) + ". Fourth: " + studentNames.get(3));
+        }).start();
+        new Thread(() -> {
+            System.out.println("Fifth: " + studentNames.get(4) + ". Sixth: " + studentNames.get(5));
+        }).start();
+    }
+
     private List<String> getStudentNames() {
         return studentRepository.findAll().stream()
                 .map(Student::getName)
                 .collect(Collectors.toList());
+    }
+
+    private synchronized List<String> getStudentNamesSynchronized() {
+        return getStudentNames();
     }
 }
