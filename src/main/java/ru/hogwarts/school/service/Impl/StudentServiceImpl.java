@@ -21,6 +21,8 @@ public class StudentServiceImpl implements StudentService {
         this.studentRepository = studentRepository;
     }
 
+    private final Object obj = new Object();
+
     @Override
     public Student addStudent(Student student) {
         logger.info("Was invoked method for add student");
@@ -138,7 +140,11 @@ public class StudentServiceImpl implements StudentService {
                 .collect(Collectors.toList());
     }
 
-    private synchronized List<String> getStudentNamesSynchronized() {
-        return getStudentNames();
+    private List<String> getStudentNamesSynchronized() {
+        synchronized (obj) {
+            return studentRepository.findAll().stream()
+                    .map(Student::getName)
+                    .collect(Collectors.toList());
+        }
     }
 }
