@@ -21,6 +21,8 @@ public class StudentServiceImpl implements StudentService {
         this.studentRepository = studentRepository;
     }
 
+    private final Object obj = new Object();
+
     @Override
     public Student addStudent(Student student) {
         logger.info("Was invoked method for add student");
@@ -106,5 +108,43 @@ public class StudentServiceImpl implements StudentService {
                 .mapToDouble(Student::getAge)
                 .average()
                 .orElse(Double.NaN);
+    }
+
+    @Override
+    public void printParallel() {
+        List<String> studentNames = getStudentNames();
+        System.out.println("First: " + studentNames.get(0) + ". Second: " + studentNames.get(1));
+        new Thread(() -> {
+            System.out.println("Third: " + studentNames.get(2) + ". Fourth: " + studentNames.get(3));
+        }).start();
+        new Thread(() -> {
+            System.out.println("Fifth: " + studentNames.get(4) + ". Sixth: " + studentNames.get(5));
+        }).start();
+    }
+
+    @Override
+    public void printSynchronized() {
+        List<String> studentNames = getStudentNamesSynchronized();
+        System.out.println("First: " + studentNames.get(0) + ". Second: " + studentNames.get(1));
+        new Thread(() -> {
+            System.out.println("Third: " + studentNames.get(2) + ". Fourth: " + studentNames.get(3));
+        }).start();
+        new Thread(() -> {
+            System.out.println("Fifth: " + studentNames.get(4) + ". Sixth: " + studentNames.get(5));
+        }).start();
+    }
+
+    private List<String> getStudentNames() {
+        return studentRepository.findAll().stream()
+                .map(Student::getName)
+                .collect(Collectors.toList());
+    }
+
+    private List<String> getStudentNamesSynchronized() {
+        synchronized (obj) {
+            return studentRepository.findAll().stream()
+                    .map(Student::getName)
+                    .collect(Collectors.toList());
+        }
     }
 }

@@ -32,4 +32,8 @@ public interface StudentService {
     List<String> getSortedListNamesA();
 
     Float getAverageAgeStream();
+
+    void printParallel();
+
+    void printSynchronized();
 }
